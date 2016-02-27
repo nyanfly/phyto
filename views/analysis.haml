@@ -1,0 +1,20 @@
+%html{lang: "en"}
+  %head
+    %meta{:charset => "utf-8"}/
+    %meta{content: "IE=edge", "http-equiv" => "X-UA-Compatible"}/
+    %meta{content: "width=device-width, initial-scale=1", name: "viewport"}/
+
+    %title phyto, the environmentally friendly news aggregator
+
+    %link{:href => "https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css", :rel => :stylesheet}
+
+  %body
+    %div{:class => "container"}
+      %div{:class => "card-columns"}
+        - wikipedia.each do |wikipedia_link|
+          %div{:class => "card"}
+            %div{:class => "card-block"}
+              %h4{:class => "card-title"}= wikipedia_link
+              %p{:class => "card-text"}= wikipedia_link
+    %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"}
+    %script{:src => "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js", :integrity => "sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7"}
