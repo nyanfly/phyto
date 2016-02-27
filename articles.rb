@@ -4,6 +4,7 @@ require 'rss'
 require 'open-uri'
 
 RSS_FEED_URLS = ['http://www.environmentalhealthnews.org/feeds/fracking', 'http://www.dailyclimate.org/feeds/topstories']
+LOCAL_FEED_URLS = ['http://www.cityofboston.gov/news/rss/default.aspx', 'http://syndication.boston.com/news/local?mode=rss_10', 'http://syndication.boston.com/news/local/massachusetts?mode=rss_10', 'http://www.whdh.com/?clienttype=rss']
 LOCALE = ['boston', 'massachusetts']
 US_STATES = ['alabama', 'alaska', 'arizona', 'arkansas', 'california', 'colorado', 'connecticut', 'delaware', 'florida', 'georgia', 'hawaii', 'idaho', 'illinois', 'indiana', 'iowa', 'kansas', 'kentucky', 'louisiana', 'maine', 'maryland', 'massachusetts', 'michigan', 'minnesota', 'mississippi', 'missouri', 'montana', 'nebraska', 'nevada', 'new hampshire', 'new jersey', 'new mexico', 'new york', 'north carolina', 'north dakota', 'ohio', 'oklahoma', 'oregon', 'pennsylvania', 'rhode island', 'south carolina', 'south dakota', 'tennessee', 'texas', 'utah', 'vermont', 'virginia', 'washington', 'west virginia', 'wisconsin', 'wyoming']
 
@@ -13,13 +14,40 @@ AylienTextApi.configure do |config|
   config.app_id  = "c23c2449"
   config.app_key = "6667b39116a915ea8eb80a514751b1a3"
 end
-client = AylienTextApi::Client.new
+$client = AylienTextApi::Client.new
 
 class Article
-  def initialize(text, summary, url)  
-    @breed = breed  
-    @name = name  
+  def initialize(title, link)
+    @title = title
+    @link = link
   end
+  attr_reader :title, :link
+end
+
+# gets a feed, returns those articles with text tag matching to topic
+def get_feed_filter(feeds, topic)
+  a = Array.new
+  feeds.each do |url|
+    open(url) do |rss|
+      feed = RSS::Parser.parse(rss)
+      feed.items.each do |item|
+        a << item
+      end
+    end
+  end
+
+  tags = Indico.text_tags(a)
+
+  to_return = []
+
+  a.each_with_index do |item, i|
+    if tags[i].max_by{ |k, v| v }[0].casecmp(topic).zero?
+      to_return << item
+      puts "HI"
+    end
+  end
+
+  return to_return
 end
 
 def get_feed()
@@ -76,27 +104,32 @@ def get_sentiments(texts)
 end
 
 def get_hashtags(url)
-  return client.hashtags(url: url, sentences_number: 3)
+  return $client.hashtags(url: url, sentences_number: 3)
 end
 
 def get_summary(url)
-  return client.summarize(url: url, sentences_number: 3)
+  return $client.summarize(url: url, sentences_number: 3)
+end
+
+def get_keywords(url)
+  entities = $client.entities(url: url)
+  return entities[:entities][:keyword]
 end
 
 def rank(texts)
-  places = get_places(texts.map {|row| row[0]})
-  sentiments = get_sentiments(texts.map {|row| row[0]})
+  places = get_places(texts.map {|article| article.title})
+  sentiments = get_sentiments(texts.map {|article| article.title})
 
-  ratings = {}
+  ratings = []
 
-  texts.each_with_index do |text, i|
-    rating = (0.5 - sentiments[text[0]]).abs
-    if places.has_key?(text[0])
-      rating += 1 if LOCALE.include? places[text[0]].downcase
-      rating += 0.2 if US_STATES.include? places[text[0]].downcase
+  texts.each_with_index do |article, i|
+    rating = (0.5 - sentiments[article.title]).abs
+    if places.has_key?(article.title)
+      rating += 1 if LOCALE.include? places[article.title].downcase
+      rating += 0.2 if US_STATES.include? places[article.title].downcase
     end
-    ratings[text] = rating
+    ratings << [article, rating]
   end
 
-  return ratings.sort_by{|k, v| v}.reverse
+  return ratings.sort_by{ |e| e[1] }.reverse.map{ |e| e[0] }
 end

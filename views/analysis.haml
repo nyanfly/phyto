@@ -11,11 +11,10 @@
   %body
     %div{:class => "container"}
       %div{:class => "card-columns"}
-        - items.each do |item|
+        - wikipedia.each do |wikipedia_link|
           %div{:class => "card"}
             %div{:class => "card-block"}
-              %h4{:class => "card-title"}= item.title
-              %p{:class => "card-text"}= item.link
-              %a{:href => "/analyze?link=#{item.link}", :class => "btn btn-primary"} go!
+              %h4{:class => "card-title"}= wikipedia_link
+              %p{:class => "card-text"}= wikipedia_link
     %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"}
     %script{:src => "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js", :integrity => "sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7"}
