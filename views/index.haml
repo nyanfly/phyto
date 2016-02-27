@@ -16,27 +16,24 @@
         %li{:class => "nav-item active"}
           %a{:class => "nav-link", :href => "#"} Home
     %div{:class => "container"}
-      %h2 blank
-      %div{:class => "col-md-4"}
+      %h1 blank
+      %div{:class => "col-md-5"}
         - odditems = items.values_at(* items.each_index.select {|i| i.odd?})
         - odditems.each do |item|
-          %div{:class => "card"}
-            %img{:class => "card-img", :src => "/rectleaf.png" }
-            %div{:class => "card-img-overlay"}
+          %div{:class => "card card-inverse", :style => "background-color: #333; border-color: #333;"}
+            %div{:class => "card-block"}
               %h4{:class => "card-title"}= item.title
               %p{:class => "card-text"} Some quick example text to build on the card title and make up the bulk of the card's content.
               %a{:href => "/analyze?link=#{item.link}", :class => "btn btn-primary"} Read More
-      %div{:class => "col-md-3"}
-      %div{:class => "col-md-4"}
+      %div{:class => "col-md-2"}
+      %div{:class => "col-md-5"}
         - evenitems = items.values_at(* items.each_index.select {|i| i.even?})
         - evenitems.each do |item|
-          %div{:class => "card"}
-            %img{:class => "card-img", :src => "/rectleaf.png" }
-            %div{:class => "card-img-overlay"}
+          %div{:class => "card card-inverse", :style => "background-color: #333; border-color: #333;"}
+            %div{:class => "card-block"}
               %h4{:class => "card-title"}= item.title
               %p{:class => "card-text"} Some quick example text to build on the card title and make up the bulk of the card's content.
               %a{:href => "/analyze?link=#{item.link}", :class => "btn btn-primary"} Read More   
-      %div{:class => "col-md-1"}
 
     %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"}
     %script{:src => "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js", :integrity => "sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7"}
