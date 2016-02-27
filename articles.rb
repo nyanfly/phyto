@@ -17,11 +17,12 @@ end
 $client = AylienTextApi::Client.new
 
 class Article
-  def initialize(title, link)
+  def initialize(title, description, link)
     @title = title
+    @description = description
     @link = link
   end
-  attr_reader :title, :link
+  attr_reader :title, :description, :link
 end
 
 # gets a feed, returns those articles with text tag matching to topic

@@ -23,7 +23,7 @@
           %div{:class => "card card-inverse", :style => "background-color: #333; border-color: #333;"}
             %div{:class => "card-block"}
               %h4{:class => "card-title"}= item.title
-              %p{:class => "card-text"} Some quick example text to build on the card title and make up the bulk of the card's content.
+              %p{:class => "card-text"}= item.description
               %a{:href => "/analyze?link=#{item.link}", :class => "btn btn-primary"} Read More
       %div{:class => "col-md-2"}
       %div{:class => "col-md-5"}
@@ -32,7 +32,7 @@
           %div{:class => "card card-inverse", :style => "background-color: #333; border-color: #333;"}
             %div{:class => "card-block"}
               %h4{:class => "card-title"}= item.title
-              %p{:class => "card-text"} Some quick example text to build on the card title and make up the bulk of the card's content.
+              %p{:class => "card-text"}= item.description
               %a{:href => "/analyze?link=#{item.link}", :class => "btn btn-primary"} Read More   
 
     %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"}

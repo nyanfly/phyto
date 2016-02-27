@@ -8,7 +8,7 @@ get '/' do
   #p = get_places(a.map { |n| n.title })
 
   b = get_feed_filter(LOCAL_FEED_URLS, "environmental")
-  r = rank((a + b).map { |n| Article.new(n.title, n.link) })
+  r = rank((a + b).map { |n| Article.new(n.title, n.description, n.link) })
   haml :index, :locals => {:items => r}
 end
 
