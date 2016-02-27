@@ -7,24 +7,35 @@
     %title phyto, the environmentally friendly news aggregator
 
     %link{:href => "https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css", :rel => :stylesheet}
+    %link{:href => "/mystyles.css", :rel => :stylesheet}
 
   %body
+    %nav{:class => "navbar navbar-fixed-top navbar-dark bg-inverse"}
+      %a{:class => "navbar-brand", :href => "#"} Phyto
+      %ul{:class => "nav navbar-nav"}
+        %li{:class => "nav-item active"}
+          %a{:class => "nav-link", :href => "#"} Home
     %div{:class => "container"}
-      %div{:class => "col-md-6"}
+      %h2 blank
+      %div{:class => "col-md-4"}
         - odditems = items.values_at(* items.each_index.select {|i| i.odd?})
         - odditems.each do |item|
           %div{:class => "card"}
-            %div{:class => "card-block"}
-              %h4{:class => "card-title"}= item[0]
+            %img{:class => "card-img", :src => "/rectleaf.png" }
+            %div{:class => "card-img-overlay"}
+              %h4{:class => "card-title"}= item[0][0]
               %p{:class => "card-text"} Some quick example text to build on the card title and make up the bulk of the card's content.
-              %a{:href => "#", :class => "btn btn-primary"} Button
-      %div{:class => "col-md-6"}
+              %a{:href => item[0][1], :class => "btn btn-primary"} Read More
+      %div{:class => "col-md-3"}
+      %div{:class => "col-md-4"}
         - evenitems = items.values_at(* items.each_index.select {|i| i.even?})
         - evenitems.each do |item|
           %div{:class => "card"}
-            %div{:class => "card-block"}
-              %h4{:class => "card-title"}= item[0]
+            %img{:class => "card-img", :src => "/rectleaf.png" }
+            %div{:class => "card-img-overlay"}
+              %h4{:class => "card-title"}= item[0][0]
               %p{:class => "card-text"} Some quick example text to build on the card title and make up the bulk of the card's content.
-              %a{:href => "#", :class => "btn btn-primary"} Button    
+              %a{:href => item[0][1], :class => "btn btn-primary"} Read More   
+      %div{:class => "col-md-1"}
     %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"}
     %script{:src => "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js", :integrity => "sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7"}

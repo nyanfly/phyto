@@ -22,3 +22,11 @@ end
 get '/hi' do
   "Hello world!"
 end
+
+get '/leaf.png' do
+  send_file File.join(settings.public_folder, 'leaf.png')
+end
+
+get '/rectleaf.png' do
+  send_file File.join(settings.public_folder, 'rectleaf.png')
+end
