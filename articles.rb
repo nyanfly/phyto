@@ -104,7 +104,10 @@ def get_sentiments(texts)
 end
 
 def get_hashtags(url)
-  return $client.hashtags(url: url, sentences_number: 3)[:hashtags]
+  hashtags = $client.hashtags(url: url, sentences_number: 3)[:hashtags]
+  if hashtags.size > 5
+    hashtags = hashtags[0..4]
+  end
 end
 
 def get_summary(url)
