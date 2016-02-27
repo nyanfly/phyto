@@ -86,6 +86,19 @@ def get_organizations(texts)
   return list
 end
 
+# TODO i don't even know what i'm doing
+# FIX THIS
+def get_places(texts)
+  list = {}
+  places = Indico.places(texts)
+  places.each_with_index do |place, i|
+    if place.size > 0 && place[0]["confidence"] > 0.75
+      list[texts[i]] = place[0]["text"]
+    end
+  end
+  return list
+end
+
 def get_places(texts)
   list = {}
   places = Indico.places(texts)
@@ -103,6 +116,38 @@ def get_sentiments(texts)
   return hash
 end
 
+# use the indico API to get a list of people
+# this is pretty bad
+# make this code iterate and stuff!!!!!
+# TODO fix
+def get_people_better(text)
+  people = Indico.people(text)
+  to_return = []
+  people.each do |p|
+    to_return << p["text"]
+  end
+
+  if to_return.length > 5
+    to_return = to_return[0..4]
+  end
+
+  return to_return
+end
+
+def get_places_better(text)
+  people = Indico.places(text)
+  to_return = []
+  people.each do |p|
+    to_return << p["text"]
+  end
+
+  if to_return.length > 5
+    to_return = to_return[0..4]
+  end
+
+  return to_return
+end
+
 def get_hashtags(url)
   hashtags = $client.hashtags(url: url, sentences_number: 3)[:hashtags]
   if hashtags.size > 5
@@ -117,6 +162,14 @@ end
 def get_keywords(url)
   entities = $client.entities(url: url)
   return entities[:entities][:keyword]
+end
+
+def get_image(url)
+  return $client.extract(url: url, best_image: true)[:image]
+end
+
+def get_article(url)
+  return $client.extract(url: url)[:article]
 end
 
 def get_title(url)
@@ -138,5 +191,12 @@ def rank(texts)
     ratings << [article, rating]
   end
 
-  return ratings.sort_by{ |e| e[1] }.reverse.map{ |e| e[0] }
+  # take only the top 20 articles
+  # TODO make this better
+  to_return = ratings.sort_by{ |e| e[1] }.reverse.map{ |e| e[0] }
+  if to_return.size > 20
+    to_return = to_return[0..19]
+  end
+
+  return to_return
 end

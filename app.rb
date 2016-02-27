@@ -16,7 +16,8 @@ get '/analyze' do
   link = params[:link]
   wikipedia = get_keywords(link).select{ |l| does_wikipedia_page_exist(l) }
   wikipedia = wikipedia.map{ |w| {text: w, link: "https://en.wikipedia.org/wiki/#{w}"} }
-  haml :analysis, :locals => {:link => link, :wikipedia => wikipedia}
+  text = get_article(link)
+  haml :analysis, :locals => {:link => link, :text => text, :wikipedia => wikipedia}
 end
 
 get '/rectleaf.png' do
