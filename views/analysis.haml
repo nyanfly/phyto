@@ -15,15 +15,27 @@
         / TODO PUT THE LOGO IMAGE IN HERE!!!
         / %img{src="LOGO_PATH"}
     %div{:class => "container", :style => "margin-top: 60px;"}
-      %h1= get_title(link)
-      %h2= get_summary(link)
+      %h1
+        %a{:href => link}= get_title(link)
+        %small{:class => "text-right"}= "// " + URI.parse(link).host
+      %div{:class => "card"}
+        %div{:class => "card-header"}
+          %strong Summary
+        %div{:class => "card-block"}= get_summary(link)
       %div{:class => "card-columns"}
-        - wikipedia.each do |wikipedia_link|
-          %div{:class => "card"}
-            %div{:class => "card-header"}
-              %strong Wikipedia articles
-            %div{:class => "card-block"}
+        %div{:class => "card card-wikipedia"}
+          %div{:class => "card-header"}
+            %strong Wikipedia articles
+          %div{:class => "card-block"}
+            - wikipedia.each do |wikipedia_link|
               %p{:class => "card-text"}
                 %a{:href => wikipedia_link[:link]}= wikipedia_link[:text]
+        %div{:class => "card card-twitter"}
+          %div{:class => "card-header"}
+            %strong Twitter
+          %div{:class => "card-block"}
+            - get_hashtags(link).each do |hashtag|
+              %p{:class => "card-text"}
+                %a{:href => "https://twitter.com/search?q=%23#{hashtag[1..-1]}"}= hashtag
     %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"}
     %script{:src => "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js", :integrity => "sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7"}

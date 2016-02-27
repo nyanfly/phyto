@@ -104,11 +104,11 @@ def get_sentiments(texts)
 end
 
 def get_hashtags(url)
-  return $client.hashtags(url: url, sentences_number: 3)
+  return $client.hashtags(url: url, sentences_number: 3)[:hashtags]
 end
 
 def get_summary(url)
-  return $client.summarize(url: url, sentences_number: 3)[:sentence]
+  return $client.summarize(url: url, sentences_number: 3)[:sentences].join(" ")
 end
 
 def get_keywords(url)
