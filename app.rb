@@ -15,20 +15,8 @@ end
 get '/analyze' do
   link = params[:link]
   wikipedia = get_keywords(link).select{ |l| does_wikipedia_page_exist(l) }
-  haml :analysis, :locals => {:wikipedia => wikipedia.map{ |w| "https://en.wikipedia.org/wiki/#{w}" }}
-end
-
-get '/text_analysis' do
-  a = get_feed()
-  #h = get_sentiments(a.map { |n| n.title })
-  #p = get_places(a.map { |n| n.title })
-  r = rank(a.map { |n| n.title })
-  puts r
-  "hi"
-end
-
-get '/hi' do
-  "Hello world!"
+  wikipedia = wikipedia.map{ |w| {text: w, link: "https://en.wikipedia.org/wiki/#{w}"} }
+  haml :analysis, :locals => {:link => link, :wikipedia => wikipedia}
 end
 
 get '/rectleaf.png' do

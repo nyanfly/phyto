@@ -44,7 +44,6 @@ def get_feed_filter(feeds, topic)
   a.each_with_index do |item, i|
     if tags[i].max_by{ |k, v| v }[0].casecmp(topic).zero?
       to_return << item
-      puts "HI"
     end
   end
 
@@ -109,12 +108,16 @@ def get_hashtags(url)
 end
 
 def get_summary(url)
-  return $client.summarize(url: url, sentences_number: 3)
+  return $client.summarize(url: url, sentences_number: 3)[:sentence]
 end
 
 def get_keywords(url)
   entities = $client.entities(url: url)
   return entities[:entities][:keyword]
+end
+
+def get_title(url)
+  return $client.extract(url: url)[:title]
 end
 
 def rank(texts)

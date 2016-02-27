@@ -9,13 +9,21 @@
     %link{:href => "https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css", :rel => :stylesheet}
 
   %body
-    %div{:class => "container"}
+    %nav{:class => "navbar navbar-fixed-top navbar-dark bg-inverse"}
+      %a{:class => "navbar-brand", :href => "/"} Phyto
+      %a{:href => "#", :class => "pull-left"}
+        / TODO PUT THE LOGO IMAGE IN HERE!!!
+        / %img{src="LOGO_PATH"}
     %div{:class => "container", :style => "margin-top: 60px;"}
+      %h1= get_title(link)
+      %h2= get_summary(link)
       %div{:class => "card-columns"}
         - wikipedia.each do |wikipedia_link|
           %div{:class => "card"}
+            %div{:class => "card-header"}
+              %strong Wikipedia articles
             %div{:class => "card-block"}
-              %h4{:class => "card-title"}= wikipedia_link
-              %p{:class => "card-text"}= wikipedia_link
+              %p{:class => "card-text"}
+                %a{:href => wikipedia_link[:link]}= wikipedia_link[:text]
     %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"}
     %script{:src => "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js", :integrity => "sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7"}
