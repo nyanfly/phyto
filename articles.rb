@@ -15,6 +15,13 @@ AylienTextApi.configure do |config|
 end
 client = AylienTextApi::Client.new
 
+class Article
+  def initialize(text, summary, url)  
+    @breed = breed  
+    @name = name  
+  end
+end
+
 def get_feed()
   a = Array.new
   RSS_FEED_URLS.each do |url|
@@ -26,7 +33,6 @@ def get_feed()
     end
   end
 
-  puts a
   return a
 end
 
@@ -78,19 +84,19 @@ def get_summary(url)
 end
 
 def rank(texts)
-  places = get_places(texts)
-  sentiments = get_sentiments(texts)
+  places = get_places(texts.map {|row| row[0]})
+  sentiments = get_sentiments(texts.map {|row| row[0]})
 
   ratings = {}
 
   texts.each_with_index do |text, i|
-    rating = (0.5 - sentiments[text]).abs
-    if places.has_key?(text)
-      rating += 1 if LOCALE.include? places[text].downcase
-      rating += 0.2 if US_STATES.include? places[text].downcase
+    rating = (0.5 - sentiments[text[0]]).abs
+    if places.has_key?(text[0])
+      rating += 1 if LOCALE.include? places[text[0]].downcase
+      rating += 0.2 if US_STATES.include? places[text[0]].downcase
     end
     ratings[text] = rating
   end
 
-  return Hash[ratings.sort_by{|k, v| v}.reverse]
+  return ratings.sort_by{|k, v| v}.reverse
 end

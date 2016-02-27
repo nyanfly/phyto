@@ -11,10 +11,10 @@
   %body
     %div{:class => "container"}
       %div{:class => "card-columns"}
-        - items.each do |key, value|
+        - items.each do |item|
           %div{:class => "card"}
             %div{:class => "card-block"}
-              %h4{:class => "card-title"}= key
+              %h4{:class => "card-title"}= item[0]
               %p{:class => "card-text"} Some quick example text to build on the card title and make up the bulk of the card's content.
               %a{:href => "#", :class => "btn btn-primary"} Button
     %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"}
